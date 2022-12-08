@@ -45,13 +45,20 @@ struct CatListView: View {
     @State private var durationWait: TimeInterval = 0.0
     private var durationWaitDefault = 2.8
     @State private var controlsAreVisible = false
+    @State private var internetConnectivity = true
 
     
         
 
     var body: some View {
         if (self.bufferCount < 1) {
-            ProgressView()
+            VStack {
+                    if (internetConnectivity){
+                        ProgressView()
+                    } else {
+                        Text("Internet Connectivity Issue")
+                    }
+                }
                 .onAppear{
                     getCats()
                     loadUserDefaults()
@@ -197,9 +204,11 @@ struct CatListView: View {
         client.get(from: url, completion: { result in
                 switch result {
                 case let .success(data, _):
+                    internetConnectivity = true
                     print ("success, add some cat data")
                     self.addCatImage(data: data)
                 case let .failure(error):
+                    internetConnectivity = false
                     print ("An error occurred, \(error)")
                     if (bufferCount < Int(bufferSize)) {downloadImageData(url: url)}
                 }
