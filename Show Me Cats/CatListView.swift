@@ -7,24 +7,7 @@
 
 import SwiftUI
 
-//    let userDefaults = UserDefaults.standard
-//    userDefaults.setValue("MyValue", forKey: "MyKey")
- 
-
-
-
 struct CatListView: View {
-
-//    init(@ViewBuilder content: () -> CatListView, onDismiss: (() -> Void)?) {
-//        content()
-//            .onDisappear(perform: saveUserDefaults())
-//        }
-//
-//    func saveUserDefaults() {
-//        let userDefaults = UserDefaults.standard
-//        userDefaults.setValue(bufferSize, forKey: "bufferSize")
-//        return
-//    }
 
     @State private var images: [UIImage] = []
     @State private var currentIndex = 0
@@ -47,8 +30,6 @@ struct CatListView: View {
     @State private var controlsAreVisible = false
     @State private var internetConnectivity = true
 
-    
-        
 
     var body: some View {
         if (self.bufferCount < 1) {
@@ -195,7 +176,6 @@ struct CatListView: View {
         if durationWait == 0.0 {
             durationWait = durationWaitDefault
         }
-
     }
 
 
@@ -239,9 +219,12 @@ struct CatListView: View {
     
 }
 
-    struct CatListView_Previews: PreviewProvider {
-        static var previews: some View {
-            CatListView()
-        }
+
+
+
+struct CatListView_Previews: PreviewProvider {
+    static var previews: some View {
+        CatListView()
     }
+}
 

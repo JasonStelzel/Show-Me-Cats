@@ -14,6 +14,7 @@ struct ContentView: View {
         }
     }
     
+    
     func showLabel() -> some View {
         VStack {
             Image("Subject")
@@ -25,6 +26,7 @@ struct ContentView: View {
 
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
