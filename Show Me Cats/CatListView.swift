@@ -77,7 +77,7 @@ struct CatListView: View {
                         showSizeSlider()
                         fadeSlider()
                         waitSlider()
-                        slideNumber()
+                        imageNumber()
                     }
                     .background(Color(CGColor(srgbRed: 0.35, green: 0.35, blue: 0.5, alpha: 0.5)))
                     .clipShape(RoundedRectangle(cornerRadius: 10.0))
@@ -103,7 +103,7 @@ struct CatListView: View {
     
     func showSizeSlider() -> some View {
         HStack {
-            Text("Image Count = " + String(Int(bufferSize)))
+            Text("Total Images " + String(Int(bufferSize)))
                 .foregroundColor(Color(cgColor: CGColor(gray: 1.0, alpha: 1.0)))
             Slider(value: $bufferSize, in: 1...300, step: 1.0)
                 .onChange(of: bufferSize) { _ in
@@ -138,15 +138,14 @@ struct CatListView: View {
     }
     
     
-    func slideNumber() -> some View {
+    func imageNumber() -> some View {
         HStack {
-            Text("Slide Number")
+            Text("Image Number")
                 .foregroundColor(Color(cgColor: CGColor(gray: 1.0, alpha: 1.0)))
-            Spacer()
             Text(String(currentIndex))
                 .foregroundColor(Color(cgColor: CGColor(gray: 1.0, alpha: 1.0)))
         }
-        .padding(.top,5)
+        .padding(.top,0)
         .padding(.horizontal,20)
         .padding(.bottom,10)
     }
