@@ -17,7 +17,7 @@ struct ContentView: View {
     
     func showLabel() -> some View {
         VStack {
-            Image("Subject")
+            Image("ShowMeCats")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 200, height: 200)
