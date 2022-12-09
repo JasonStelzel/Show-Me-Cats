@@ -11,8 +11,8 @@ struct CatListView: View {
 
     @State private var images: [UIImage] = []
     @State private var currentIndex = 0
-    @State private var timer: Timer?
-    @State private var timeToWait: Timer?
+    @State private var fadeTime: Timer?
+    @State private var waitTime: Timer?
     @State private var showingIndex = false
     @State private var getCatsTimer: Timer?
     @State private var tooManyCatCalls = false
@@ -133,14 +133,14 @@ struct CatListView: View {
     
     
     private func waitTimer() {
-        timeToWait = Timer.scheduledTimer(withTimeInterval: durationWait, repeats: false) { _ in
-            startTimer()
+        waitTime = Timer.scheduledTimer(withTimeInterval: durationWait, repeats: false) { _ in
+            fadeTimer()
         }
     }
     
     
-    private func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: durationFade, repeats: false) { _ in
+    private func fadeTimer() {
+        fadeTime = Timer.scheduledTimer(withTimeInterval: durationFade, repeats: false) { _ in
             self.currentIndex = (self.currentIndex + 1) % self.images.count
             print ("image count = \(images.count)")
             waitTimer()
