@@ -50,6 +50,7 @@
 		EB05F8842943C50A00EDCE8E /* Show Me CatsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Show Me CatsUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB05F8882943C50A00EDCE8E /* Show_Me_CatsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Show_Me_CatsUITests.swift; sourceTree = "<group>"; };
 		EB05F88A2943C50A00EDCE8E /* Show_Me_CatsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Show_Me_CatsUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		EB96357D294A7A18008CC6E4 /* Show-Me-Cats-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Show-Me-Cats-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +110,7 @@
 		EB05F86C2943C50900EDCE8E /* Show Me Cats */ = {
 			isa = PBXGroup;
 			children = (
+				EB96357D294A7A18008CC6E4 /* Show-Me-Cats-Info.plist */,
 				EB03FDC02943C82E00CF34CE /* Networking */,
 				EB05F86D2943C50900EDCE8E /* Show_Me_CatsApp.swift */,
 				EB03FDC52943C84300CF34CE /* CatListView.swift */,
@@ -440,6 +442,7 @@
 				DEVELOPMENT_TEAM = 7HSL2KF3FX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Show-Me-Cats-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -469,6 +472,7 @@
 				DEVELOPMENT_TEAM = 7HSL2KF3FX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Show-Me-Cats-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
