@@ -11,11 +11,10 @@ struct CatListView: View {
 
     @State private var images: [UIImage] = []
     @State private var currentIndex = 0
-    @State private var fadeTime: Timer?
-    @State private var waitTime: Timer?
+    @State private var fadeTimer: Timer?
+    @State private var waitTimer: Timer?
     @State private var showingIndex = false
     @State private var getCatsTimer: Timer?
-    @State private var tooManyCatCalls = false
 
     private var client = URLSessionHTTPClient()
     let url = URL(string:"https://cataas.com/cat")!
@@ -41,38 +40,37 @@ struct CatListView: View {
                     }
                 }
                 .onAppear{
-                    getCats()
                     loadUserDefaults()
+                    getCats()
                 }
             
         } else {
             ZStack {
-                ForEach(0..<images.count, id: \.self) { index in
-                    Image(uiImage: self.images[index])
-                        .resizable()
-                        .opacity(index == self.currentIndex ? 1 : 0)
-                        .animation(.easeInOut(duration: self.durationFade), value: index == self.currentIndex)
-                }
+                slideShow()
                 if (controlsAreVisible){
-                    VStack {
-                        showSizeSlider()
-                        fadeSlider()
-                        waitSlider()
-                        imageNumber()
-                    }
-                    .background(Color(CGColor(srgbRed: 0.35, green: 0.35, blue: 0.5, alpha: 0.5)))
-                    .clipShape(RoundedRectangle(cornerRadius: 10.0))
-                    .padding(.horizontal,20)
+                    controlPanel()
                 }
             }
             .onAppear {
-                self.waitTimer()
+                self.waitTime()
             }
             .onDisappear {
                 print ("Saving userDefaults...")
                 saveUserDefaults()
+                memoryCleanup()
             }
             .onTapGesture(count: 1, perform: toggleControls)
+        }
+    }
+    
+    
+    func slideShow () -> some View {
+        ForEach(0..<images.count, id: \.self) { index in
+            Image(uiImage: self.images[index])
+                .resizable()
+                .edgesIgnoringSafeArea(.all)
+                .opacity(index == self.currentIndex ? 1 : 0)
+                .animation(.easeInOut(duration: self.durationFade), value: index == self.currentIndex)
         }
     }
     
@@ -82,14 +80,28 @@ struct CatListView: View {
     }
     
     
+    func controlPanel() -> some View {
+        VStack {
+            showSizeSlider()
+            fadeSlider()
+            waitSlider()
+            imageNumber()
+        }
+        .background(Color(CGColor(srgbRed: 0.35, green: 0.35, blue: 0.5, alpha: 0.5)))
+        .clipShape(RoundedRectangle(cornerRadius: 10.0))
+        .padding(.horizontal,20)
+    }
+    
+    
     func showSizeSlider() -> some View {
         HStack {
             Text("Total Images " + String(Int(bufferSize)))
                 .foregroundColor(Color(cgColor: CGColor(gray: 1.0, alpha: 1.0)))
-            Slider(value: $bufferSize, in: 1...300, step: 1.0)
-                .onChange(of: bufferSize) { _ in
+            Slider(value: $bufferSize, in: 1...300, step: 1.0){ editing in
+                if !editing {
                     getCats()
                 }
+            }
         }
         .padding(.top,10)
         .padding(.horizontal,20)
@@ -132,18 +144,17 @@ struct CatListView: View {
     }
     
     
-    private func waitTimer() {
-        waitTime = Timer.scheduledTimer(withTimeInterval: durationWait, repeats: false) { _ in
-            fadeTimer()
+    private func waitTime() {
+        waitTimer = Timer.scheduledTimer(withTimeInterval: durationWait, repeats: false) { _ in
+            fadeTime()
         }
     }
     
     
-    private func fadeTimer() {
-        fadeTime = Timer.scheduledTimer(withTimeInterval: durationFade, repeats: false) { _ in
+    private func fadeTime() {
+        fadeTimer = Timer.scheduledTimer(withTimeInterval: durationFade, repeats: false) { _ in
             self.currentIndex = (self.currentIndex + 1) % self.images.count
-            print ("image count = \(images.count)")
-            waitTimer()
+            waitTime()
         }
     }
     
@@ -177,6 +188,15 @@ struct CatListView: View {
             durationWait = durationWaitDefault
         }
     }
+    
+    
+    func memoryCleanup() {
+        images = []
+        bufferCount = 0
+        fadeTimer?.invalidate()
+        waitTimer?.invalidate()
+        getCatsTimer?.invalidate()
+    }
 
 
     func downloadImageData(url: URL) {
@@ -196,26 +216,26 @@ struct CatListView: View {
     
     
     func addCatImage(data: Data) {
-        self.bufferCount += 1
-        let image = UIImage(data: data)
-        self.images.append(image!)
-        print ("Buffer Count =\(bufferCount)")
-        if (bufferCount < Int(bufferSize)) {downloadImageData(url: url)}
+        if (images.count < Int(bufferSize)) {
+            if let image = UIImage(data: data) {
+                self.bufferCount += 1
+                print ("Buffer Count =\(bufferCount)")
+                self.images.append(image)
+                if (bufferCount < Int(bufferSize)) { downloadImageData(url: url) }
+            }
+
+        }
+        print ("image count after any add = \(images.count)")
+
     }
     
     
     func getCats() {
-            print ("Get Cats")
+        print ("Get Cats")
         if bufferSize == 0 { bufferSize = bufferSizeDefault }
-        if !tooManyCatCalls {
-            self.tooManyCatCalls = true
-            downloadImageData(url: url)
-            getCatsTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
-                self.tooManyCatCalls = false
-            }
-        }
-
+        downloadImageData(url: url)
     }
+
     
 }
 
