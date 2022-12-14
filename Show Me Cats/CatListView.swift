@@ -75,6 +75,7 @@ struct CatListView: View {
     }
     
     
+    // todo: refactor control panel into separate file
     private func toggleControls() {
         controlsAreVisible.toggle()
     }
@@ -159,6 +160,7 @@ struct CatListView: View {
     }
     
     
+    // todo: address non-View related code
     func saveUserDefaults() {
         let userDefaults = UserDefaults.standard
         userDefaults.setValue(bufferSize, forKey: "bufferSize")
@@ -199,6 +201,7 @@ struct CatListView: View {
     }
 
 
+    // todo: move networking code out of View
     func downloadImageData(url: URL) {
         client.get(from: url, completion: { result in
                 switch result {
@@ -225,8 +228,7 @@ struct CatListView: View {
             }
 
         }
-        print ("image count after any add = \(images.count)")
-
+        print ("image count after add = \(images.count)")
     }
     
     
